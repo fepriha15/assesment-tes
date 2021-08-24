@@ -56,10 +56,11 @@ class StatFragment : BaseFragment<FragmentStatBinding>() {
                 val data = response.data
                 val abilityDesc = response.data?.flavorTextEntries?.find { it.versionGroup.name == "diamond-pearl" && it.language.name == "en" }?.flavorText
                 abilityDesc.let {
+                    Timber.e(it)
                     if (data?.name.equals(binding.tvFirstAb.text.toString(), ignoreCase = true))
-                        binding.tvFirstAbDes.text = it
+                        binding.tvFirstAbDes.text = it?.replace("\n","")
                     else
-                        binding.tvSecondAbDes.text = it
+                        binding.tvSecondAbDes.text = it?.replace("\n","")
                 }
             }
             is Resource.Error -> {

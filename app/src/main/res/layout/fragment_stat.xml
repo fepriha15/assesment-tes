@@ -22,6 +22,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
                 android:text="Abilities"
                 android:textColor="@color/text_secondary_dark"
                 android:gravity="center_horizontal"
@@ -29,6 +30,7 @@
 
             <TextView
                 android:id="@+id/tv_first_ab"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
                 android:textColor="@color/text_secondary_dark"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
@@ -42,6 +44,7 @@
             <TextView
                 android:textColor="@color/text_secondary_dark"
                 android:id="@+id/tv_second_ab"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
