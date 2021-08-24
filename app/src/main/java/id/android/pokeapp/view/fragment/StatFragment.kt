@@ -14,6 +14,7 @@ import id.android.pokeapp.view.activity.DetailActivity
 import id.android.pokeapp.viewmodel.PokeListViewModel
 import id.android.pokeapp.viewmodel.Resource
 import timber.log.Timber
+import java.util.*
 import javax.inject.Inject
 
 class StatFragment : BaseFragment<FragmentStatBinding>() {
@@ -43,7 +44,10 @@ class StatFragment : BaseFragment<FragmentStatBinding>() {
             tvSecondAb.text = toCapitalize(pokemon?.abilities?.get(1)?.ability?.name)
         }
         viewModel.pokemonAbility.observe(this, pokemonAbilityObserver)
-        pokemon?.id?.let { viewModel.getAbility(it) }
+        pokemon?.abilities.let {
+            it?.get(0)?.ability?.id?.let { it1 -> viewModel.getAbility(it1) }
+            it?.get(1)?.ability?.id?.let { it1 -> viewModel.getAbility(it1) }
+        }
     }
 
     private val pokemonAbilityObserver = Observer<Resource<Ability>> { response ->
@@ -52,7 +56,7 @@ class StatFragment : BaseFragment<FragmentStatBinding>() {
                 val data = response.data
                 val abilityDesc = response.data?.flavorTextEntries?.find { it.versionGroup.name == "diamond-pearl" && it.language.name == "en" }?.flavorText
                 abilityDesc.let {
-                    if (data?.name == binding.tvFirstAb.text)
+                    if (data?.name.equals(binding.tvFirstAb.text.toString(), ignoreCase = true))
                         binding.tvFirstAbDes.text = it
                     else
                         binding.tvSecondAbDes.text = it
