@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Poke App</string>
+    <string name="poke_app">Pokemon</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="character_transition_container">character_transition_container_%1$s</string>
+    <string name="stat">Stats</string>
+    <string name="evolution">Evolutions</string>
+    <string name="no_inet_con">No internet connection</string>
+</resources>
