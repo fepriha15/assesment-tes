@@ -18,7 +18,10 @@ interface PokeServices {
     fun getPokemonForm(@Path("id") id: Int): Single<PokemonForm>
 
     @GET("pokemon/{id}/")
-    fun getPokemon(@Path("id") id: Int): Single<Pokemon>
+    fun getPokemonSingle(@Path("id") id: Int): Single<Pokemon>
+
+    @GET("pokemon/{id}/")
+    fun getPokemon(@Path("id") id: Int): Pokemon
 
     @GET("ability/{id}/")
     fun getAbility(@Path("id") id: Int): Single<Ability>

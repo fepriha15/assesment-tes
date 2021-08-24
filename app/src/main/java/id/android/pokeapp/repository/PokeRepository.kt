@@ -7,7 +7,11 @@ interface PokeRepository {
 
     fun getPokemonList(offset: Int, limit: Int): NamedApiResourceList
 
-    fun getPokemon(id: Int): Single<Pokemon>
+    fun getPokemonSingle(id: Int): Single<Pokemon>
+
+    fun getPokemon(id: Int): Pokemon
+
+    fun getPokemonListDetail(offset: Int, limit: Int): Single<List<Pokemon>>
 
     fun getSpecies(id: Int): Single<PokemonSpecies>
 

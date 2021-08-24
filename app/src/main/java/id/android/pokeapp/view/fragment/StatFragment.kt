@@ -9,9 +9,11 @@ import id.android.pokeapp.databinding.FragmentStatBinding
 import id.android.pokeapp.model.Ability
 import id.android.pokeapp.model.Pokemon
 import id.android.pokeapp.util.showErrorMesage
+import id.android.pokeapp.util.toCapitalize
 import id.android.pokeapp.view.activity.DetailActivity
 import id.android.pokeapp.viewmodel.PokeListViewModel
 import id.android.pokeapp.viewmodel.Resource
+import timber.log.Timber
 import javax.inject.Inject
 
 class StatFragment : BaseFragment<FragmentStatBinding>() {
@@ -37,22 +39,18 @@ class StatFragment : BaseFragment<FragmentStatBinding>() {
         val pokemon = parenActivity.getPokemon()
         viewModel = (activity as DetailActivity).viewModel
         with(binding){
-            tvFirstAb.text = pokemon?.abilities?.get(0)?.ability?.name
-            tvSecondAb.text = pokemon?.abilities?.get(1)?.ability?.name
+            tvFirstAb.text = toCapitalize(pokemon?.abilities?.get(0)?.ability?.name)
+            tvSecondAb.text = toCapitalize(pokemon?.abilities?.get(1)?.ability?.name)
         }
-        observerViewModel()
-    }
-
-    private fun observerViewModel() {
         viewModel.pokemonAbility.observe(this, pokemonAbilityObserver)
+        pokemon?.id?.let { viewModel.getAbility(it) }
     }
 
     private val pokemonAbilityObserver = Observer<Resource<Ability>> { response ->
         when (response) {
             is Resource.Success -> {
                 val data = response.data
-
-                val abilityDesc = response.data?.flavorTextEntries?.find { it.versionGroup.name == "diamond-pearl" && it.language.name == "end" }?.flavorText
+                val abilityDesc = response.data?.flavorTextEntries?.find { it.versionGroup.name == "diamond-pearl" && it.language.name == "en" }?.flavorText
                 abilityDesc.let {
                     if (data?.name == binding.tvFirstAb.text)
                         binding.tvFirstAbDes.text = it

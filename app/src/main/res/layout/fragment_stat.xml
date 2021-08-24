@@ -23,13 +23,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Abilities"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/text_secondary_dark"
                 android:gravity="center_horizontal"
                 android:layout_marginBottom="@dimen/activity_horizontal_margin" />
 
             <TextView
                 android:id="@+id/tv_first_ab"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/text_secondary_dark"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
@@ -40,7 +40,7 @@
                 android:layout_marginBottom="@dimen/activity_horizontal_margin" />
 
             <TextView
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/text_secondary_dark"
                 android:id="@+id/tv_second_ab"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -52,7 +52,6 @@
                 android:layout_marginBottom="@dimen/activity_horizontal_margin" />
 
         </LinearLayout>
-
 
     </ScrollView>
 

@@ -5,11 +5,13 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import dagger.android.AndroidInjection
+import id.android.pokeapp.R
 import id.android.pokeapp.databinding.ActivityDetailBinding
 import id.android.pokeapp.di.GlideApp
 import id.android.pokeapp.model.Pokemon
 import id.android.pokeapp.model.PokemonSpecies
 import id.android.pokeapp.util.showErrorMesage
+import id.android.pokeapp.util.toCapitalize
 import id.android.pokeapp.view.adapter.DetailViewPager
 import id.android.pokeapp.viewmodel.PokeListViewModel
 import id.android.pokeapp.viewmodel.Resource
@@ -58,9 +60,12 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>() {
 
     private fun pokemonInit(){
         val pokeImage = pokemon?.sprites?.other?.officialArtwork?.frontDefault
-        GlideApp.with(this).load(pokeImage)
-            .centerCrop().into(binding.imgDetailPoke)
-        binding.tvDtlPokeName.text = pokemon?.name?.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
+        GlideApp.with(this)
+            .load(pokeImage)
+            .placeholder(R.drawable.ic_baseline_image_24)
+            .centerCrop().
+            into(binding.imgDetailPoke)
+        binding.tvDtlPokeName.text = toCapitalize(pokemon?.name)
     }
 
     private fun observerViewModel() {

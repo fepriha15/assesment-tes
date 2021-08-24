@@ -8,6 +8,7 @@ import com.bumptech.glide.request.RequestOptions
 import id.android.pokeapp.databinding.PokeListAdapterBinding
 import id.android.pokeapp.di.GlideApp
 import id.android.pokeapp.model.Pokemon
+import id.android.pokeapp.util.toCapitalize
 import timber.log.Timber
 import java.lang.StringBuilder
 import java.util.*
@@ -43,7 +44,6 @@ class PokeListAdapter(private val context: Context) : RecyclerView.Adapter<PokeL
     fun addAll(pokeList: MutableList<Pokemon?>) {
         pokes.clear()
         pokes = pokeList
-        pokes.sortBy { it?.id }
         notifyDataSetChanged()
     }
 
@@ -51,7 +51,7 @@ class PokeListAdapter(private val context: Context) : RecyclerView.Adapter<PokeL
 
         fun bindItem(poke: Pokemon?) {
             with(binding) {
-                tvPokeName.text = poke?.name?.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
+                tvPokeName.text = toCapitalize(poke?.name)
                 tvPokeId.text = StringBuilder("#").append(poke?.id.toString().padStart(3, '0'))
                 val pokeImage = poke?.sprites?.other?.officialArtwork?.frontDefault
                 GlideApp.with(context).load(pokeImage).into(imgPoke)

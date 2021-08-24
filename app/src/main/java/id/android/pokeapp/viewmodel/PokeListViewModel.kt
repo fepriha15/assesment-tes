@@ -12,12 +12,12 @@ import id.android.pokeapp.model.Pokemon
 import id.android.pokeapp.model.PokemonSpecies
 import id.android.pokeapp.repository.PokeRepository
 import id.android.pokeapp.util.hasInternetConnection
-import id.android.pokeapp.util.isInternetAvailable
 import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import java.io.IOException
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -26,6 +26,7 @@ class PokeListViewModel @Inject constructor(private val app: Application, privat
                                             @Named(SCHEDULER_MAIN_THREAD) val mainScheduler: Scheduler) : AndroidViewModel(app) {
 
     val pokeList : MutableLiveData<Resource<List<NamedApiResource>>> = MutableLiveData()
+    val pokemonListDetail : MutableLiveData<Resource<List<Pokemon>>> = MutableLiveData()
     val pokemonDetail : MutableLiveData<Resource<Pokemon>> = MutableLiveData()
     val pokemonAbility : MutableLiveData<Resource<Ability>> = MutableLiveData()
     val pokemonSpecies : MutableLiveData<Resource<PokemonSpecies>> = MutableLiveData()
@@ -56,11 +57,35 @@ class PokeListViewModel @Inject constructor(private val app: Application, privat
         }
     }
 
+    fun getPokemonListDetail(offset: Int, limit: Int) {
+        pokemonListDetail.postValue(Resource.Loading())
+        try {
+            if(hasInternetConnection(getApplication<MainApp>())) {
+                disposables.add(repo.getPokemonListDetail(offset,limit).
+                subscribeOn(Schedulers.io()).
+                observeOn(mainScheduler).
+                subscribe({ value -> pokemonListDetail.postValue(Resource.Success(value)) },
+                          { error ->  pokemonListDetail.postValue(Resource.Error(error.localizedMessage ?: ""))}))
+
+            } else {
+                pokemonListDetail.postValue(Resource.Error(app.getString(R.string.no_inet_con)))
+            }
+        } catch(t: Throwable) {
+            when(t) {
+                is IOException -> pokemonListDetail.postValue(Resource.Error("Network Failure"))
+                else -> pokemonListDetail.postValue(Resource.Error("Conversion Error"))
+            }
+        }
+    }
+    fun test(){
+
+    }
+
     fun getPokemon(id: Int) {
         pokemonDetail.postValue(Resource.Loading())
         try {
             if(hasInternetConnection(getApplication<MainApp>())) {
-                disposables.add(repo.getPokemon(id).
+                disposables.add(repo.getPokemonSingle(id).
                 subscribeOn(Schedulers.io()).
                 observeOn(mainScheduler).
                 subscribe({ value -> pokemonDetail.postValue(Resource.Success(value)) },
